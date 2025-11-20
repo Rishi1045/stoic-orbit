@@ -60,7 +60,6 @@
             
             height: 100dvh; 
             width: 100vw;
-            /* Using relative positioning for absolute children */
             position: relative;
             overflow: hidden;
             font-family: 'Inter', sans-serif;
@@ -75,7 +74,7 @@
             z-index: 1;
             opacity: 0.04;
             pointer-events: none;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABERERmZmYzMzOZmZlVVVUPQTY2AAAAH3RSTlMvMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzxnOAAACSNJREFUOI0l1k1v20YUB/C88sV+iUABW6S4GhD0Yr102kO32KMhCLJScGtMJ6F8iR5S0E1yCgKlhwRtDkWBQo8J8m/0kGP/Q/cydm0JtN+288y8/8w8884AwB91/X2/Wb8v2vW7Iv1+3V6/q9Y/1uv3Rbt+163fF/X6XbV+X9T/vK/W36r1+6J9+65a/1it3xft23fV+v/W6/dFu/5d1P+8r9bfa/33zfr9u2r9vli/L9bvi/X7Yv2+WL8v1u+L9ftirX+r1u+L9ftirX+s1u+L9ftirX+s1u+L9fti/b5Y6x+r9ftirX+s1u+L9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Yv1+363fV+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vut31fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fF+n2xfl+s3xfr98X6fbF+X6zfF+v3xfr9/wG78x4i9B/2sAAAAABJRU5ErkJggg==');
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABERERmZmYzMzOZmZlVVVUPQTY2AAAAH3RSTlMvMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzxnOAAACSNJREFUOI0l1k1v20YUB/C88sV+iUABW6S4GhD0Yr102kO32KMhCLJScGtMJ6F8iR5S0E1yCgKlhwRtDkWBQo8J8m/0kGP/Q/cydm0JtN+288y8/8w8884AwB91/X2/Wb8v2vW7Iv1+3V6/q9Y/1uv3Rbt+163fF/X6XbV+X9T/vK/W36r1+6J9+65a/1it3xft23fV+v/W6/dFu/5d1P+8r9bfa/33zfr9u2r9vli/L9bvi/X7Yv2+WL8v1u+L9ftirX+r1u+L9ftirX+s1u+L9ftirX+s1u+L9fti/b5Y6x+r9ftirX+s1u+L9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Yv1+363fV+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fF+n2xfl+s3xfr98X6fbF+X6zfF+v3xfr9/wG78x4i9B/2sAAAAABJRU5ErkJggg==');
         }
 
         #particles-container {
@@ -106,15 +105,12 @@
             width: 100%;
             height: 100%;
             z-index: 10;
-            
             display: flex;
             align-items: center;
             justify-content: center;
             padding-bottom: 20px;
-            
             transform-style: preserve-3d;
             will-change: transform;
-            /* Important: Transition must be fast for touch responsiveness */
             transition: transform 0.1s ease-out; 
         }
 
@@ -171,6 +167,31 @@
             opacity: 1;
         }
 
+        /* --- THE HINT --- */
+        #daily-hint {
+            position: fixed;
+            bottom: 25px;
+            right: 30px;
+            
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            
+            /* Visible Steel Gray */
+            color: #666666;
+            
+            z-index: 15;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 2s ease 1s;
+        }
+        
+        body.loaded #daily-hint {
+            opacity: 1;
+        }
+
+
         /* --- FOOTER --- */
         .time-container {
             position: fixed;
@@ -215,7 +236,14 @@
             .content-card { padding: 10px; }
             #quote-author { font-size: 0.7rem; letter-spacing: 4px; }
             
-            /* REMOVED THE "TRANSFORM: NONE" lines. Mobile animation is now enabled. */
+            /* Mobile Hint: Bottom Center */
+            #daily-hint {
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 30px; /* Bumped up slightly to avoid time bar */
+                font-size: 0.6rem;
+            }
         }
     </style>
 </head>
@@ -231,6 +259,8 @@
             <div id="quote-author"></div>
         </main>
     </div>
+    
+    <div id="daily-hint">Return Tomorrow</div>
 
     <div class="time-container">
         <div id="time-bar"></div>
@@ -240,6 +270,7 @@
 
     <script>
         window.onload = () => {
+            document.body.classList.add('loaded');
             createParticles();
             displayDailyQuote();
             updateTimeBar();
@@ -277,34 +308,20 @@
             });
         }
 
-        // --- UNIFIED PHYSICS ENGINE (Mouse + Touch) ---
+        // --- PHYSICS ENGINE ---
         let currentX = 0, currentY = 0;
         let ticking = false;
 
-        // 1. Mouse Input
-        document.addEventListener('mousemove', (e) => {
-            requestTick(e.clientX, e.clientY);
-        });
-
-        // 2. Touch Input (Mobile)
-        document.addEventListener('touchmove', (e) => {
-            // e.touches[0] gets the first finger's position
-            requestTick(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: true });
-
-        // 3. Touch End (Reset to center when finger lifts)
+        document.addEventListener('mousemove', (e) => { requestTick(e.clientX, e.clientY); });
+        document.addEventListener('touchmove', (e) => { requestTick(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+        
         document.addEventListener('touchend', () => {
             const card = document.getElementById('tilt-card');
             const particles = document.getElementById('particles-container');
-            
-            // Smoothly reset
             card.style.transition = 'transform 0.5s ease-out';
             card.style.transform = 'rotateX(0deg) rotateY(0deg)';
-            
             particles.style.transition = 'transform 0.5s ease-out';
             particles.style.transform = 'translate(0px, 0px)';
-            
-            // Restore fast transition for next touch
             setTimeout(() => {
                 card.style.transition = 'transform 0.1s ease-out';
                 particles.style.transition = 'transform 0.1s ease-out';
@@ -323,20 +340,15 @@
         function updatePhysics() {
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
-            
             const card = document.getElementById('tilt-card');
             const particles = document.getElementById('particles-container');
 
-            // Calculate rotation (Dampened for mobile so it's not too shaky)
-            // On mobile, we allow slightly more tilt since screens are smaller
             const dampener = window.innerWidth < 768 ? 3 : 2; 
-            
             const rotateY = ((currentX - centerX) / centerX) * dampener; 
             const rotateX = ((currentY - centerY) / centerY) * -dampener;
             
             card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
-            // Parallax
             const moveX = ((currentX - centerX) / centerX) * -15;
             const moveY = ((currentY - centerY) / centerY) * -15;
             particles.style.transform = `translate(${moveX}px, ${moveY}px)`;
