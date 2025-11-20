@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stoic-Orbit</title>
+    
+    <meta name="theme-color" content="#020204">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --text-primary: #E6E6E6; 
+            --text-secondary: #666666;
+        }
+
+        ::selection {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255,255,255,0.8);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            /* PREMIUM MOBILE FEEL: Removes ugly blue tap highlight on phones */
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        body {
+            background-color: #020204; 
+            background-image: 
+                radial-gradient(circle at 50% 0%, #1B2028 0%, transparent 70%),
+                radial-gradient(circle at 50% 100%, #0f1115 0%, transparent 60%);
+            
+            /* MOBILE FIX: 100dvh handles the shifting mobile URL bar perfectly */
+            min-height: 100dvh;
+            width: 100vw;
+            
+            /* Centering */
+            display: grid;
+            place-items: center;
+            
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            perspective: 1200px;
+            color: var(--text-primary);
+            will-change: transform; 
+        }
+
+        /* Noise Texture */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABERERmZmYzMzOZmZlVVVUPQTY2AAAAH3RSTlMvMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzxnOAAACSNJREFUOI0l1k1v20YUB/C88sV+iUABW6S4GhD0Yr102kO32KMhCLJScGtMJ6F8iR5S0E1yCgKlhwRtDkWBQo8J8m/0kGP/Q/cydm0JtN+288y8/8w8884AwB91/X2/Wb8v2vW7Iv1+3V6/q9Y/1uv3Rbt+163fF/X6XbV+X9T/vK/W36r1+6J9+65a/1it3xft23fV+v/W6/dFu/5d1P+8r9bfa/33zfr9u2r9vli/L9bvi/X7Yv2+WL8v1u+L9ftirX+r1u+L9ftirX+s1u+L9ftirX+s1u+L9fti/b5Y6x+r9ftirX+s1u+L9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Yv1+363fV+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vut31fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fF+n2xfl+s3xfr98X6fbF+X6zfF+v3xfr9/wG78x4i9B/2sAAAAABJRU5ErkJggg==');
+        }
+
+        #particles-container {
+            position: fixed;
+            inset: -100px;
+            z-index: 2;
+            pointer-events: none;
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 30s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 0; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+
+        /* --- CARD CONTAINER --- */
+        .tilt-wrapper {
+            position: relative;
+            z-index: 10;
+            transform-style: preserve-3d;
+            will-change: transform;
+            padding: 20px;
+            width: 100%; 
+            display: flex;
+            justify-content: center;
+        }
+
+        .content-card {
+            max-width: 950px;
+            width: 90%; /* Mobile width safety */
+            margin: 0 auto;
+            padding: 40px;
+            text-align: center;
+            
+            opacity: 0;
+            transform: translateY(40px) scale(0.94);
+            filter: blur(15px);
+            transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity, filter;
+        }
+
+        .content-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+        }
+
+        #quote-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3.8rem;
+            line-height: 1.15;
+            color: var(--text-primary);
+            margin-bottom: 40px; 
+            background: linear-gradient(135deg, #ffffff 0%, #949aa3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s; /* Snappier for touch */
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+        }
+        
+        #quote-text:hover { opacity: 0.7; }
+        #quote-text:active { transform: scale(0.96); opacity: 0.6; } /* Good touch feedback */
+
+        #quote-author {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            transform: translateY(20px); 
+            opacity: 0;
+            transition: all 1s ease 0.4s;
+        }
+
+        .content-card.visible #quote-author {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* --- FOOTER --- */
+        .time-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.02);
+            z-index: 20;
+            /* Safe area for iPhone Home Bar */
+            padding-bottom: env(safe-area-inset-bottom); 
+        }
+        #time-bar {
+            height: 1px; /* Explicit height */
+            width: 0%;
+            background: linear-gradient(90deg, transparent, #ffffff);
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            transition: width 1s linear;
+        }
+
+        /* --- TOAST --- */
+        #toast {
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px) scale(0.9);
+            background: rgba(15, 20, 25, 0.95);
+            backdrop-filter: blur(8px); 
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: white;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 100;
+            pointer-events: none;
+        }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+
+        /* --- MOBILE SPECIFIC OVERRIDES --- */
+        @media (max-width: 768px) {
+            #quote-text { 
+                font-size: 2.2rem; /* Readable size on phone */
+                line-height: 1.3;
+            }
+            
+            .content-card {
+                padding: 20px; /* Less padding */
+                width: 90%;
+            }
+
+            #quote-author {
+                font-size: 0.7rem;
+                letter-spacing: 4px; /* Tighter spacing for small screens */
+            }
+
+            /* Disable Parallax on Mobile for battery/performance */
+            .tilt-wrapper {
+                transform: none !important;
+            }
+            #particles-container {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise"></div>
+    <div id="particles-container"></div>
+    <div id="toast">Copied to clipboard</div>
+
+    <div class="tilt-wrapper" id="tilt-card">
+        <div class="content-card" id="card">
+            <div id="quote-text" title="Tap to copy">Loading...</div>
+            <div id="quote-author"></div>
+        </div>
+    </div>
+
+    <div class="time-container">
+        <div id="time-bar"></div>
+    </div>
+
+    <script src="quotes.js"></script>
+
+    <script>
+        window.onload = () => {
+            createParticles();
+            displayDailyQuote();
+            updateTimeBar();
+            setInterval(updateTimeBar, 60000); 
+        };
+
+        function displayDailyQuote() {
+            if (typeof localQuotes === 'undefined') {
+                document.getElementById('quote-text').innerText = "We suffer more often in imagination than in reality.";
+                document.getElementById('quote-author').innerText = "— Seneca";
+                document.getElementById('card').classList.add('visible');
+                return;
+            }
+
+            const now = new Date();
+            const dateString = now.toDateString();
+            let hash = 0;
+            for (let i = 0; i < dateString.length; i++) {
+                hash = dateString.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            hash = Math.abs(hash);
+            const index = hash % localQuotes.length;
+            const todayQuote = localQuotes[index];
+
+            const textEl = document.getElementById('quote-text');
+            const authorEl = document.getElementById('quote-author');
+            
+            textEl.innerText = `"${todayQuote.text}"`;
+            authorEl.innerText = "— " + todayQuote.author;
+
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    document.getElementById('card').classList.add('visible');
+                }, 150);
+            });
+        }
+
+        // Parallax Logic (Only runs on Desktop > 768px)
+        let mouseX = 0, mouseY = 0;
+        let ticking = false;
+
+        document.addEventListener('mousemove', (e) => {
+            // PERFORMANCE: Instantly stop logic if mobile
+            if(window.innerWidth <= 768) return; 
+
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateParallax(mouseX, mouseY);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        function updateParallax(x, y) {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            const card = document.getElementById('tilt-card');
+            const rotateY = ((x - centerX) / centerX) * 2; 
+            const rotateX = ((y - centerY) / centerY) * -2;
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+            const particles = document.getElementById('particles-container');
+            const moveX = ((x - centerX) / centerX) * -15;
+            const moveY = ((y - centerY) / centerY) * -15;
+            particles.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        }
+
+        function updateTimeBar() {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+            const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+            const percentage = ((now - start) / (end - start)) * 100;
+            document.getElementById('time-bar').style.width = percentage + "%";
+        }
+
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            // Reduce particles on mobile for CPU save
+            const count = window.innerWidth < 768 ? 20 : 35; 
+            
+            for(let i=0; i<count; i++){
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.width = Math.random() * 2 + 'px';
+                p.style.height = p.style.width;
+                p.style.left = Math.random() * 100 + '%';
+                p.style.setProperty('--opacity', Math.random() * 0.35 + 0.05);
+                p.style.animationDelay = -Math.random() * 40 + 's'; 
+                p.style.animationDuration = Math.random() * 30 + 30 + 's';
+                container.appendChild(p);
+            }
+        }
+
+        // Touch handling for mobile copy
+        const quoteText = document.getElementById('quote-text');
+        
+        const handleCopy = async (e) => {
+            // Prevent double firing
+            e.preventDefault(); 
+            
+            const text = quoteText.innerText;
+            const author = document.getElementById('quote-author').innerText;
+            
+            try {
+                await navigator.clipboard.writeText(text + " " + author);
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2500);
+            } catch (err) {
+                console.log("Clipboard API failed");
+            }
+        };
+
+        quoteText.addEventListener('click', handleCopy);
+        // Add touchstart for better mobile response time
+        quoteText.addEventListener('touchstart', () => {}); 
+    </script>
+</body>
+</html>
