@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="kyR_Hc2H6rwO5OdiycAKZ7pswKSBPFHA9rzz_kZFniE" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Stoic-Orbit</title>
+    <meta name="google-site-verification" content="kyR_Hc2H6rwO5OdiycAKZ7pswKSBPFHA9rzz_kZFniE" />
     
+    <title>Stoic Orbit | Daily Philosophy & Wisdom</title>
+    <meta name="description" content="A minimalist daily companion for Stoic wisdom. Receive one powerful quote from Marcus Aurelius, Seneca, and Epictetus every day.">
+    <meta name="keywords" content="Stoic, Stoicism, Daily Quote, Philosophy, Mental Health, Minimalist">
+    <meta name="author" content="Stoic Orbit">
+    <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#020204">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Stoic Orbit">
+    <meta property="og:description" content="Start your day with one focused Stoic thought.">
+    <meta property="og:url" content="https://stoic-orbit.vercel.app/">
+
     <link rel="manifest" href="manifest.json">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Stoic Orbit",
+      "url": "https://stoic-orbit.vercel.app/",
+      "description": "A minimalist platform for daily Stoic quotes and philosophy."
+    }
+    </script>
 
     <style>
         :root {
@@ -29,7 +49,6 @@
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
-            /* PREMIUM MOBILE FEEL: Removes ugly blue tap highlight on phones */
             -webkit-tap-highlight-color: transparent; 
         }
 
@@ -39,22 +58,17 @@
                 radial-gradient(circle at 50% 0%, #1B2028 0%, transparent 70%),
                 radial-gradient(circle at 50% 100%, #0f1115 0%, transparent 60%);
             
-            /* MOBILE FIX: 100dvh handles the shifting mobile URL bar perfectly */
-            min-height: 100dvh;
+            height: 100dvh; 
             width: 100vw;
-            
-            /* Centering */
-            display: grid;
-            place-items: center;
-            
+            /* Using relative positioning for absolute children */
+            position: relative;
             overflow: hidden;
             font-family: 'Inter', sans-serif;
             perspective: 1200px;
             color: var(--text-primary);
-            will-change: transform; 
         }
 
-        /* Noise Texture */
+        /* --- BACKGROUND LAYERS --- */
         .noise {
             position: fixed;
             inset: 0;
@@ -84,24 +98,31 @@
             100% { transform: translateY(-10vh); opacity: 0; }
         }
 
-        /* --- CARD CONTAINER --- */
+        /* --- MAIN STAGE --- */
         .tilt-wrapper {
-            position: relative;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 10;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 20px;
+            
             transform-style: preserve-3d;
             will-change: transform;
-            padding: 20px;
-            width: 100%; 
-            display: flex;
-            justify-content: center;
+            /* Important: Transition must be fast for touch responsiveness */
+            transition: transform 0.1s ease-out; 
         }
 
         .content-card {
             max-width: 950px;
-            width: 90%; /* Mobile width safety */
-            margin: 0 auto;
-            padding: 40px;
+            width: 90%; 
             text-align: center;
+            padding: 20px;
             
             opacity: 0;
             transform: translateY(40px) scale(0.94);
@@ -116,22 +137,23 @@
             filter: blur(0px);
         }
 
-        #quote-text {
+        h1#quote-text {
             font-family: 'DM Serif Display', serif;
-            font-size: 3.8rem;
-            line-height: 1.15;
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 400;
+            line-height: 1.2;
             color: var(--text-primary);
-            margin-bottom: 40px; 
+            margin-bottom: 30px; 
             background: linear-gradient(135deg, #ffffff 0%, #949aa3 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s; /* Snappier for touch */
+            transition: opacity 0.2s, transform 0.1s;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
         }
         
-        #quote-text:hover { opacity: 0.7; }
-        #quote-text:active { transform: scale(0.96); opacity: 0.6; } /* Good touch feedback */
+        h1#quote-text:hover { opacity: 0.7; }
+        h1#quote-text:active { transform: scale(0.96); opacity: 0.6; }
 
         #quote-author {
             font-family: 'Inter', sans-serif;
@@ -155,14 +177,12 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.02);
+            height: 2px; 
             z-index: 20;
-            /* Safe area for iPhone Home Bar */
-            padding-bottom: env(safe-area-inset-bottom); 
         }
+        
         #time-bar {
-            height: 1px; /* Explicit height */
+            height: 100%;
             width: 0%;
             background: linear-gradient(90deg, transparent, #ffffff);
             box-shadow: 0 0 20px rgba(255,255,255,0.4);
@@ -191,30 +211,11 @@
         }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 
-        /* --- MOBILE SPECIFIC OVERRIDES --- */
         @media (max-width: 768px) {
-            #quote-text { 
-                font-size: 2.2rem; /* Readable size on phone */
-                line-height: 1.3;
-            }
+            .content-card { padding: 10px; }
+            #quote-author { font-size: 0.7rem; letter-spacing: 4px; }
             
-            .content-card {
-                padding: 20px; /* Less padding */
-                width: 90%;
-            }
-
-            #quote-author {
-                font-size: 0.7rem;
-                letter-spacing: 4px; /* Tighter spacing for small screens */
-            }
-
-            /* Disable Parallax on Mobile for battery/performance */
-            .tilt-wrapper {
-                transform: none !important;
-            }
-            #particles-container {
-                transform: none !important;
-            }
+            /* REMOVED THE "TRANSFORM: NONE" lines. Mobile animation is now enabled. */
         }
     </style>
 </head>
@@ -225,10 +226,10 @@
     <div id="toast">Copied to clipboard</div>
 
     <div class="tilt-wrapper" id="tilt-card">
-        <div class="content-card" id="card">
-            <div id="quote-text" title="Tap to copy">Loading...</div>
+        <main class="content-card" id="card">
+            <h1 id="quote-text" title="Tap to copy">Stoic Orbit. Daily Wisdom Loading...</h1>
             <div id="quote-author"></div>
-        </div>
+        </main>
     </div>
 
     <div class="time-container">
@@ -276,38 +277,71 @@
             });
         }
 
-        // Parallax Logic (Only runs on Desktop > 768px)
-        let mouseX = 0, mouseY = 0;
+        // --- UNIFIED PHYSICS ENGINE (Mouse + Touch) ---
+        let currentX = 0, currentY = 0;
         let ticking = false;
 
+        // 1. Mouse Input
         document.addEventListener('mousemove', (e) => {
-            // PERFORMANCE: Instantly stop logic if mobile
-            if(window.innerWidth <= 768) return; 
-
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    updateParallax(mouseX, mouseY);
-                    ticking = false;
-                });
-                ticking = true;
-            }
+            requestTick(e.clientX, e.clientY);
         });
 
-        function updateParallax(x, y) {
+        // 2. Touch Input (Mobile)
+        document.addEventListener('touchmove', (e) => {
+            // e.touches[0] gets the first finger's position
+            requestTick(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+
+        // 3. Touch End (Reset to center when finger lifts)
+        document.addEventListener('touchend', () => {
+            const card = document.getElementById('tilt-card');
+            const particles = document.getElementById('particles-container');
+            
+            // Smoothly reset
+            card.style.transition = 'transform 0.5s ease-out';
+            card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            
+            particles.style.transition = 'transform 0.5s ease-out';
+            particles.style.transform = 'translate(0px, 0px)';
+            
+            // Restore fast transition for next touch
+            setTimeout(() => {
+                card.style.transition = 'transform 0.1s ease-out';
+                particles.style.transition = 'transform 0.1s ease-out';
+            }, 500);
+        });
+
+        function requestTick(x, y) {
+            currentX = x;
+            currentY = y;
+            if (!ticking) {
+                window.requestAnimationFrame(updatePhysics);
+                ticking = true;
+            }
+        }
+
+        function updatePhysics() {
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
             
             const card = document.getElementById('tilt-card');
-            const rotateY = ((x - centerX) / centerX) * 2; 
-            const rotateX = ((y - centerY) / centerY) * -2;
+            const particles = document.getElementById('particles-container');
+
+            // Calculate rotation (Dampened for mobile so it's not too shaky)
+            // On mobile, we allow slightly more tilt since screens are smaller
+            const dampener = window.innerWidth < 768 ? 3 : 2; 
+            
+            const rotateY = ((currentX - centerX) / centerX) * dampener; 
+            const rotateX = ((currentY - centerY) / centerY) * -dampener;
+            
             card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
-            const particles = document.getElementById('particles-container');
-            const moveX = ((x - centerX) / centerX) * -15;
-            const moveY = ((y - centerY) / centerY) * -15;
+            // Parallax
+            const moveX = ((currentX - centerX) / centerX) * -15;
+            const moveY = ((currentY - centerY) / centerY) * -15;
             particles.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+            ticking = false;
         }
 
         function updateTimeBar() {
@@ -320,7 +354,6 @@
 
         function createParticles() {
             const container = document.getElementById('particles-container');
-            // Reduce particles on mobile for CPU save
             const count = window.innerWidth < 768 ? 20 : 35; 
             
             for(let i=0; i<count; i++){
@@ -336,16 +369,11 @@
             }
         }
 
-        // Touch handling for mobile copy
         const quoteText = document.getElementById('quote-text');
-        
         const handleCopy = async (e) => {
-            // Prevent double firing
             e.preventDefault(); 
-            
             const text = quoteText.innerText;
             const author = document.getElementById('quote-author').innerText;
-            
             try {
                 await navigator.clipboard.writeText(text + " " + author);
                 const toast = document.getElementById('toast');
@@ -355,9 +383,7 @@
                 console.log("Clipboard API failed");
             }
         };
-
         quoteText.addEventListener('click', handleCopy);
-        // Add touchstart for better mobile response time
         quoteText.addEventListener('touchstart', () => {}); 
     </script>
 </body>
