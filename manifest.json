@@ -1,0 +1,21 @@
+{
+  "name": "Stoic Orbit",
+  "short_name": "Stoic",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020204",
+  "theme_color": "#020204",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/66/66197.png", 
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/66/66197.png", 
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
