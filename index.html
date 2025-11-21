@@ -65,7 +65,25 @@
             font-family: 'Inter', sans-serif;
             perspective: 1200px;
             color: var(--text-primary);
+            
+            cursor: default; /* Default cursor state */
         }
+
+        /* --- ZEN MODE LOGIC --- */
+        
+        /* When idle, hide the cursor */
+        body.idle {
+            cursor: none;
+        }
+        
+        /* When idle, FADE OUT the hint and toast only */
+        body.idle #daily-hint,
+        body.idle #toast {
+            opacity: 0 !important;
+            transition: opacity 1.5s ease;
+        }
+        
+        /* Note: .time-container is NOT listed here, so it stays visible */
 
         /* --- BACKGROUND LAYERS --- */
         .noise {
@@ -74,7 +92,7 @@
             z-index: 1;
             opacity: 0.04;
             pointer-events: none;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABERERmZmYzMzOZmZlVVVUPQTY2AAAAH3RSTlMvMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzxnOAAACSNJREFUOI0l1k1v20YUB/C88sV+iUABW6S4GhD0Yr102kO32KMhCLJScGtMJ6F8iR5S0E1yCgKlhwRtDkWBQo8J8m/0kGP/Q/cydm0JtN+288y8/8w8884AwB91/X2/Wb8v2vW7Iv1+3V6/q9Y/1uv3Rbt+163fF/X6XbV+X9T/vK/W36r1+6J9+65a/1it3xft23fV+v/W6/dFu/5d1P+8r9bfa/33zfr9u2r9vli/L9bvi/X7Yv2+WL8v1u+L9ftirX+r1u+L9ftirX+s1u+L9ftirX+s1u+L9fti/b5Y6x+r9ftirX+s1u+L9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Yv1+363fV+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fF+n2xfl+s3xfr98X6fbF+X6zfF+v3xfr9/wG78x4i9B/2sAAAAABJRU5ErkJggg==');
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAABERERmZmYzMzOZmZlVVVUPQTY2AAAAH3RSTlMvMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzxnOAAACSNJREFUOI0l1k1v20YUB/C88sV+iUABW6S4GhD0Yr102kO32KMhCLJScGtMJ6F8iR5S0E1yCgKlhwRtDkWBQo8J8m/0kGP/Q/cydm0JtN+288y8/8w8884AwB91/X2/Wb8v2vW7Iv1+3V6/q9Y/1uv3Rbt+163fF/X6XbV+X9T/vK/W36r1+6J9+65a/1it3xft23fV+v/W6/dFu/5d1P+8r9bfa/33zfr9u2r9vli/L9bvi/X7Yv2+WL8v1u+L9ftirX+s1u+L9ftirX+s1u+L9fti/b5Y6x+r9ftirX+s1u+L9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Y6x+r9fti/b5Yv1+363fV+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fFWv9Yrd8Xa/1jtX5frPWP1fp9sdY/Vuv3xVr/WK3fF2v9Y7V+X6z1j9X6fbHWP1br98Va/1it3xdr/WO1fl+s9Y/V+n2x1j9W6/fF+n2xfl+s3xfr98X6fbF+X6zfF+v3xfr9/wG78x4i9B/2sAAAAABJRU5ErkJggg==');
         }
 
         #particles-container {
@@ -167,7 +185,7 @@
             opacity: 1;
         }
 
-        /* --- THE HINT --- */
+        /* --- THE HINT (DIM & DISAPPEARS IN ZEN MODE) --- */
         #daily-hint {
             position: fixed;
             bottom: 25px;
@@ -178,8 +196,8 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             
-            /* Visible Steel Gray */
-            color: #666666;
+            /* DIMMED: Very low opacity white, looks like faint ghost text */
+            color: rgba(255, 255, 255, 0.15);
             
             z-index: 15;
             pointer-events: none;
@@ -187,6 +205,7 @@
             transition: opacity 2s ease 1s;
         }
         
+        /* Show hint when page loads */
         body.loaded #daily-hint {
             opacity: 1;
         }
@@ -200,6 +219,7 @@
             width: 100%;
             height: 2px; 
             z-index: 20;
+            transition: opacity 1s ease; /* Smooth fade if we ever need it */
         }
         
         #time-bar {
@@ -241,7 +261,7 @@
                 right: auto;
                 left: 50%;
                 transform: translateX(-50%);
-                bottom: 30px; /* Bumped up slightly to avoid time bar */
+                bottom: 30px;
                 font-size: 0.6rem;
             }
         }
@@ -269,13 +289,33 @@
     <script src="quotes.js"></script>
 
     <script>
+        const body = document.body;
+        let idleTimer;
+
         window.onload = () => {
-            document.body.classList.add('loaded');
+            body.classList.add('loaded');
             createParticles();
             displayDailyQuote();
             updateTimeBar();
             setInterval(updateTimeBar, 60000); 
+            resetTimer(); // Start Zen Mode timer
         };
+
+        // --- ZEN MODE LOGIC ---
+        function resetTimer() {
+            // Wake up
+            body.classList.remove('idle');
+            clearTimeout(idleTimer);
+            
+            // Go to sleep after 4 seconds
+            idleTimer = setTimeout(() => {
+                body.classList.add('idle');
+            }, 4000);
+        }
+        
+        ['mousemove', 'touchstart', 'click', 'scroll'].forEach(evt => 
+            document.addEventListener(evt, resetTimer, {passive: true})
+        );
 
         function displayDailyQuote() {
             if (typeof localQuotes === 'undefined') {
