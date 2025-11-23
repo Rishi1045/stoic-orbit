@@ -1744,10 +1744,6 @@ const localQuotes = [
         "author": "Marcus Aurelius"
     },
     {
-        "text": "Throw away thy books. No longer distract thyself.",
-        "author": "Marcus Aurelius"
-    },
-    {
         "text": "He who follows reason in all things is both tranquil and active at the same time, and also cheerful and collected.",
         "author": "Marcus Aurelius"
     },
